@@ -1,0 +1,689 @@
+﻿<link href="~/css/Particles.css" type="text/css" rel="stylesheet" />
+<link href="~/css/Plantilla.css" type="text/css" rel="stylesheet" />
+<script src="//cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+
+<div id="particles-js"></div>
+
+
+<fieldset class="contenedor">
+    <div class="card-panel">
+        <h5>Plantilla Calidad</h5>
+    </div>
+    <div class="progress">
+        <div class="determinate"></div>
+    </div>
+    <div id="formularioCalidad">
+        <h6>Información general de la llamada</h6>
+        <div class="row" style="display:none">
+            <input value="" id="auditor" />
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="col s3">
+                    <label>Nombre</label>                    
+                    <input class="form-control labelNombre" id="Nombre" readonly="readonly" disabled />
+                </div>
+                <div class="col s3">
+                    <label>Jefe</label>                    
+                    <input class="form-control labelNombre" id="Jefe" readonly="readonly" disabled />
+                </div>
+                <div class="col s3">
+                    <label>Nombre</label>                    
+                    <input class="form-control labelNombre" id="Sector" readonly="readonly" disabled />
+                </div>
+                <div class="col s3">
+                    <label>Legajo</label>
+                    <input class="form-control" id="Legajo" maxlength="7"/>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila2">
+            <div class="col s12">
+                <div class="col s3">
+                  @*  @Html.LabelFor(d => d.Login)
+                    @Html.EditorFor(d => d.Login, "", new { @class = "form-control", @id = "Login", onchange = @"tabssla();", onclick = @"tabla();" })*@
+                </div>
+                <div class="col s3">
+                    @Html.Label("Fecha de LLamada")
+                   @* @Html.EditorFor(d => d.Fecha, "", new { @class = "form-control", @id = "Fecha" })*@
+                </div>
+                <div class="col s3" id="auditoria">
+                  @*  @Html.LabelFor(d => d.Tipo_Auditoria, new { @id = "tipo" })*@
+                    <form action="#" id="Tipo_Auditoria">
+                        <p class="col s4" id="pmovi">
+                            <input name="group1" type="radio" id="Auditoria1" value="expediente" onclick="cargarExpediente(),ocultarIdllamada(),cargarEstructuraExpediente(),cargarAlerta()" />
+                            <label for="Auditoria1">Expediente</label>
+                        </p>
+                        <p class="col s4" id="pmovi">
+                            <input name="group1" type="radio" id="Auditoria2" value="grabada" onclick="ocultarExpedinete(),cargarIdllamada(),cargarEstructuraExpediente(),cargarAlerta()" />
+                            <label for="Auditoria2">Grabada</label>
+                        </p>
+                        <p class="col s4" id="pmovi">
+                            <input name="group1" type="radio" id="Auditoria3" value="On-line" onclick="ocultarExpedinete(),cargarIdllamada(),cargarEstructuraExpediente(),cargarAlerta()" />
+                            <label for="Auditoria3">On-Line</label>
+                        </p>
+                        <p class="col s4" id="botones">
+                            <input name="group1" type="radio" id="Auditoria4" value="Focalizada" onclick="ocultarExpedinete(),cargarIdllamada(),cargarEstructuraExpediente()" />
+                            <label for="Auditoria4">Focalizada</label>
+                        </p>
+                        <p class="col s6" id="botones">
+                            <input name="group1" type="radio" id="Auditoria5" value="Exclusivo Calibración" onclick="ocultarExpedinete(),cargarIdllamada(),cargarEstructuraExpediente()" />
+                            <label for="Auditoria5">Exclusivo Calibración</label>
+                        </p>
+                    </form>
+                </div>
+                <div class="col s3" id="ubicacionagente">
+                   @* @Html.LabelFor(d => d.UbicacionAgente, new { @id = "ubAgente" })*@
+                    <form action="" id="UbicacionAgente">
+                        <p class="col s3" id="pmovi">
+                            <input name="group1" type="radio" id="Ubicacion1" value="site" />
+                            <label for="Ubicacion1">Site</label>
+                        </p>
+                        <p class="col s9" id="pmovi">
+                            <input name="group1" type="radio" id="Ubicacion2" value="casa" />
+                            <label for="Ubicacion2">Casa</label>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila3a">
+            <div class="col s12">
+                <div class="col s3">
+                    @Html.Label("", "Servicio", htmlAttributes: new { @class = "control-label" })
+                    <select name="Servicios" id="selectService" class="browser-default" onchange="traerEstructura(this.value), cargarRetencion(this.value), cargarMotivo(this.value)">
+                        <option disabled selected>Seleccion servicio...</option>
+                        @*@foreach (var item in Model.ObtenerServicios)
+                        {
+                            <option value="@item.Servicios">@item.Servicios</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Skill", htmlAttributes: new { @class = "control-label" })
+                    <select name="Skill" id="selectSkill" class="browser-default">
+                        <option disabled selected>Seleccion Skill...</option>
+                      @*  @foreach (var item in ViewBag.skill)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3" id="sectorizacion">
+                    @Html.Label("","Sectorización", htmlAttributes: new { @class = "control-label", @id = "sec" })
+                    <form action="#">
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="sectorizacion1" value="A" />
+                            <label for="sectorizacion1">A</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="sectorizacion2" value="B" />
+                            <label for="sectorizacion2">B</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="sectorizacion3" value="C" />
+                            <label for="sectorizacion3">C</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="sectorizacion4" value="Z" />
+                            <label for="sectorizacion4">Z</label>
+                        </p>
+                    </form>
+                </div>
+                <div class="col s3" id="routing">
+                    @Html.Label("","Routing", htmlAttributes: new {@class = "control-label", @id = "Routing"})
+                    <form action="#">
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="Routing1" value="P1" />
+                            <label for="Routing1">P1</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="Routing2" value="P2" />
+                            <label for="Routing2">P2</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="Routing3" value="P3" />
+                            <label for="Routing3">P3</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="Routing4" value="P4" />
+                            <label for="Routing4">P4</label>
+                        </p>
+                        <p class="col s2" id="pmovi">
+                            <input name="group1" type="radio" id="Routing5" value="P5" />
+                            <label for="Routing5">P5</label>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila4">
+            <div class="col s12">
+                <div class="col s3">
+                  @*  @Html.LabelFor(d => d.TMO)
+                    @Html.TextBoxFor(d => d.TMO, "", new { @class = "form-control", @id = "TMO", maxlength = "4" })*@
+                </div>
+                <div class="col s3">
+                  @*  @Html.LabelFor(d => d.DNICliente)
+                    @Html.TextBoxFor(d => d.DNICliente, "", new { @class = "form-control", @id = "DNICliente", maxlength = "12", @onkeypress = "return soloLetras(event)", @onblur = "Limpia()" })*@
+                </div>
+                <div class="col s3">
+                  @*  @Html.LabelFor(d => d.TelCliente)
+                    @Html.TextBoxFor(d => d.TelCliente, "", new { @class = "form-control", @id = "TelCliente", maxlength = "9" })*@
+                </div>
+                <div class="col s3" id="Expediente" style="display: none" onclick="cargarExpediente()">
+                  @*  @Html.LabelFor(d => d.NoExpediente)
+                    @Html.EditorFor(d => d.NoExpediente, "", new { @class = "form-control", @id = "NoExpediente", maxlength = "10" })*@
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila5">
+            <div class="col s12">
+                <div class="col s3" id="Idllamada" style="display: none">
+                  @*  @Html.LabelFor(d => d.IdLlamada)
+                    @Html.TextBoxFor(d => d.IdLlamada, "", new { @class = "form-control", @id = "IdLlamada", maxlength = "21", minlength = "19" })*@
+                </div>
+                <div class="col s3">
+                  @*  @Html.LabelFor(d => d.CurvaAprendizaje)
+                    @Html.TextBoxFor(d => d.CurvaAprendizaje, "", new { @class = "form-control", @id = "Antiguedad", @readonly = "readonly" })*@
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Motivo", htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownList("gafas", new MultiSelectList("", "Id", "Motivo"), "Seleccione un Motivo...", new { @class = "browser-default radioo", id = "selectMotivo", disabled = "true", style = "border: 1px solid black;border-radius: 30px;", onchange = @"cargarSubMotivo(this.value);" })
+                </div>
+                <div class="col s3">
+                    @Html.Label("SubMotivo")
+                    <br />
+                    @Html.DropDownList("gafasasda", new MultiSelectList("", "Id", "SubMotivo"), "Seleccione un Motivo...", new { @class = "browser-default radioo", id = "selectSubMotivo", disabled = "true", style = "border: 1px solid black;border-radius: 30px;" })
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila6">
+            <div class="col s12">
+                <div class="col s3">
+                    @Html.Label("", "Mobile Connect", htmlAttributes: new { @class = "control-label" })
+                    <select name="MobileConnect" id="mobileConnect" class="browser-default" onchange="cargarUsoMobile(this.value)">
+                        <option value="" selected>Seleccion Mobile Connect...</option>
+                      @*  @foreach (var item in ViewBag.MobileConnect)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3" style="display: none" id="UsoMobile">
+                    @Html.Label("", "Uso Mobile Connect", htmlAttributes: new { @class = "control-label" })
+                    <select name="usoMobile" id="usoMobile" class="browser-default radioo">
+                        <option value="" selected>Seleccion Uso de Mobile Connect...</option>
+                    @*    @foreach (var item in ViewBag.UsoMobileConnect)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Motivo Focalizado", htmlAttributes: new { @class = "control-label" })
+                    <select name="usoMobile" id="motivoFocalizado" onchange="cargarOtroFocalizado(this.value)" class="browser-default radioo">
+                        <option disabled selected>Seleccion Motivo Focalizado...</option>
+                       @* @foreach (var item in ViewBag.MotivoFocalizado)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3" style="display: none" id="otroFocalizado">
+                    <form class="row">
+                      @*  @Html.LabelFor(d => d.Cual)
+                        @Html.TextBoxFor(d => d.Cual, "", new { @class = "form-control", @id = "OtroFocalizado" })*@
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila7">
+            <div class="col s12">
+                <div class="col s3">
+                    @Html.Label("", "Tecnología", htmlAttributes: new { @class = "control-label" })
+                    <select name="Tecnologia" id="Tecnologia" class="browser-default">
+                        <option value="" selected>Seleccion Tecnologia...</option>
+                      @*  @foreach (var item in ViewBag.Tecnologia)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Servicio que consulta", htmlAttributes: new { @class = "control-label" })
+                    <select name="servicioConsulta" id="servicioConsulta" class="browser-default radioo">
+                        <option disabled selected> Seleccion Servicio que Consulta ... </option>
+                       @* @foreach (var item in ViewBag.ServicioQueConsulta)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="determinate"></div>
+        </div>
+        <h6>Imputabilidad</h6>
+        <div class="row" id="fila8">
+            <div class="col s12">
+                <div class="col s3">
+                    @Html.Label("", "Causa", htmlAttributes: new { @class = "control-label" })
+                    <select name="Causa" id="Causa" onchange="cargarCausaMotivo()" class="browser-default radioo">
+                        <option disabled selected> Seleccion Causa ... </option>
+                      @*  @foreach (var item in ViewBag.Causa)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3" id="MotivoAgente" style="display: none">
+                    @Html.Label("", "Motivo Imputabilidad", htmlAttributes: new { @class = "control-label" })
+                    <select name="MotivoAgente" id="motivoAgente" class="browser-default radioo">
+                        <option disabled selected> Seleccion Motivo Imputabilidad ... </option>
+                        <option value="Actitud">Actitud</option>
+                        <option value="Desconocimiento del proceso">Desconocimiento del proceso</option>
+                        <option value="No sabe usar herramientas">No sabe usar herramientas</option>
+                        <option value="Mala Praxis">Mala Praxis</option>
+                        <option value="Habilidad">Habilidad</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="col s3" id="MotivoCliente" style="display: none">
+                    @Html.Label("", "Motivo Imputabilidad", htmlAttributes: new { @class = "control-label" })
+                    <select name="MotivoCliente" id="motivoCliente" class="browser-default radioo">
+                        <option disabled selected> Seleccion Motivo Imputabilidad ... </option>
+                        <option value="Oferta">Oferta</option>
+                        <option value="No le gusta el proceso">No le gusta el proceso</option>
+                        <option value="Re-llamador">Re-llamador</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="col s3" id="MotivoProceso" style="display: none">
+                    @Html.Label("", "Motivo Imputabilidad", htmlAttributes: new { @class = "control-label" })
+                    <select name="MotivoProceso" id="motivoProceso" class="browser-default radioo">
+                        <option disabled selected> Seleccion Motivo Imputabilidad ... </option>
+                        <option value="No existe">No existe</option>
+                        <option value="Incorrecto">Incorrecto</option>
+                        <option value="Impacto extremo">Impacto extremo</option>
+                        <option value="Incidencia fuera de plazos">Incidencia fuera de plazos</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Oportunidades de mejora", htmlAttributes: new { @class = "control-label" })
+                    <select name="OportunidadesMejora" id="OportunidadesMejora" class="browser-default radioo">
+                        <option disabled selected>Seleccion oportunidades de Mejora ...</option>
+                     @*   @foreach (var item in ViewBag.OportunidadesMejora)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="determinate"></div>
+        </div>
+        <h6>KPI que impacto</h6>
+        <div class="row" id="fila9">
+            <div class="col s12">
+                <div class="col s3">
+                    @Html.Label("", "Rellamada", htmlAttributes: new { @class = "control-label" })
+                    <select name="Rellamada" id="Rellamada" class="browser-default radioo">
+                        <option value="" selected> Seleccion Rellamada ... </option>
+                     @*   @foreach (var item in ViewBag.Rellamada)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Compromisos", htmlAttributes: new { @class = "control-label" })
+                    <select name="compromisos" id="compromisos" onchange="cargarMotivoCom()" class="browser-default radioo">
+                        <option value="" selected> Seleccion Compromisos ... </option>
+                      @*  @foreach (var item in ViewBag.Compromisos)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3" id="motivocompromiso" style="display: none">
+                    @Html.Label("", "Motivo compromiso", htmlAttributes: new { @class = "control-label" })
+                    <select name="compromisos" id="MotivoCompromiso" class="browser-default radioo">
+                        <option value="" selected> Seleccion Compromisos ... </option>
+                        <option value="Importe mal informado">Importe mal informado</option>
+                        <option value="Falla del sistema">Falla del sistema</option>
+                        <option value="Factura">Factura</option>
+                        <option value="Penalización permanencia">Penalización permanencia</option>
+                        <option value="Baja no cursada no solicitada">Baja no cursada no solicitada</option>
+                        <option value="Alta no solicitada">Alta no solicitada</option>
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "TMO / AHT", htmlAttributes: new { @class = "control-label" })
+                    <select name="TMOAHT" id="TMOAHT" class="browser-default radioo">
+                        <option value="" selected> Seleccion TMOAHT ... </option>
+                     @*   @foreach (var item in ViewBag.TMOAHT)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Transferencia", htmlAttributes: new { @class = "control-label" })
+                    <select name="TMOAHT" id="transferencia" class="browser-default radioo">
+                        <option value="" selected> Seleccion si procede transferencia... </option>
+                    @*    @foreach (var item in ViewBag.Transferencia)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="fila10">
+            <div class="col s12">
+                <div class="col s3" id="destinoTransferencia">
+                    @Html.Label("", "Destino Transferencia", htmlAttributes: new { @class = "control-label" })
+                    <select name="DestinoTransferencia" id="DestinoTransferencia" onchange="cargarOtroDestino()" class="browser-default radioo">
+                        <option value="" selected> Seleccion Destino transferencia... </option>
+                     @*   @foreach (var item in ViewBag.DestinoTransferencia)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3" id="otroDestino" style="display: none">
+                   @* @Html.LabelFor(d => d.Otro)
+                    @Html.TextBoxFor(d => d.Otro, "", new { @class = "form-control", @id = "OtroDestino" })*@
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Acto Comercial", htmlAttributes: new { @class = "control-label" })
+                    <select name="ActoComercial" id="ActoComercial" class="browser-default radioo">
+                        <option value="" selected> Seleccion Acto Comercial... </option>
+                      @*  @foreach (var item in ViewBag.ActoComercial)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "NPS", htmlAttributes: new { @class = "control-label" })
+                    <select name="NPS" id="NPS" class="browser-default radioo">
+                        <option value="" selected> Seleccion NPS... </option>
+                      @*  @foreach (var item in ViewBag.NPS)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                </div>
+                <div class="col s3">
+                    @Html.Label("", "Encuesta", htmlAttributes: new { @class = "control-label" })
+                    <select name="Encuesta" id="Encuesta" class="browser-default radioo">
+                        <option value="" selected> Seleccion Encuesta... </option>
+                     @*   @foreach (var item in ViewBag.Encuesta)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }*@
+                    </select>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="row" id="Retencion" style="display: none">
+            <div class="progress">
+                <div class="determinate"></div>
+            </div>
+            <h6>Exclusivo Retención</h6>
+            <div class="row" id="fila11">
+                <div class="col s12">
+                    <div class="col s3">
+                        @Html.Label("", "Ofrecimiento Comercial", htmlAttributes: new { @class = "control-label" })
+                        <select name="OfrecimientoComercial" id="OfrecimientoComercial" class="browser-default radioo">
+                            <option value="" selected> Seleccion Ofrecimiento comercial... </option>
+                         @*   @foreach (var item in ViewBag.OfrecimientoComercial)
+                            {
+                                <option value="@item.Text">@item.Text</option>
+                            }*@
+                        </select>
+                    </div>
+                    <div class="col s3">
+                        @Html.Label("", "Motivo de Baja TDD", htmlAttributes: new { @class = "control-label" })
+                        <select name="MotivoBaja" id="MotivoBaja" class="browser-default radioo">
+                            <option value="" selected> Seleccion Motivo de baja... </option>
+                           @* @foreach (var item in ViewBag.MotivoBaja)
+                            {
+                                <option value="@item.Text">@item.Text</option>
+                            }*@
+                        </select>
+                    </div>
+                    <div class="col s3">
+                        @Html.Label("", "Ya contrato con otro operdor", htmlAttributes: new { @class = "control-label" })
+                        <select name="YaContratoOtroOperador" id="YaContratoOtroOperador" onchange="cargarDondePorto()" class="browser-default radioo">
+                            <option value="" selected> Seleccion Si ya contrato con otro operador... </option>
+                          @*  @foreach (var item in ViewBag.YaContratoOtroOperador)
+                            {
+                                <option value="@item.Text">@item.Text</option>
+                            }*@
+                        </select>
+                    </div>
+                    <div class="col s3" id="OperadorDondePorto" style="display: none">
+                        @Html.Label("", "Operador donde se porto", htmlAttributes: new { @class = "control-label" })
+                        <select name="OperadorDondeSePorto" id="OperadorDondeSePorto" class="browser-default radioo">
+                            <option value="" selected> Seleccion Operador donde se porto... </option>
+                          @*  @foreach (var item in ViewBag.OperadorDondeSePorto)
+                            {
+                                <option value="@item.Text">@item.Text</option>
+                            }*@
+                        </select>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-panel">
+                <h5>Proceso<span id="NotaCalidad" style="color: #000"> NotaFinal </span></h5>
+            </div>
+            <br />
+        </div>
+        <div id="Estructura"></div>
+        <div class="desc" id="AtendioPor" style="display: none">
+            <div class="col s3">
+                <p style="text-align: left">La llamada se atendio por:</p>
+            </div>
+            <div class="col s3">
+                <h6 style="text-align:left">Opciones</h6>
+                <form action="#">
+                    <p>
+                        <input name="group1" type="radio" id="AtendioPor1" value="Avaya" />
+                        <label for="AtendioPor1" class="col s3">Avaya</label>
+                        <input name="group1" type="radio" id="AtendioPor2" value="Altitude" />
+                        <label for="AtendioPor2" class="col s3">Altitude</label>
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="determinate"></div>
+        </div>
+        <h6>Tolerancia 0 / Alertas</h6>
+        <div class="desc">
+            @Html.Label("", "Aplica Tolerancia 0 / Alertas", htmlAttributes: new { @class = "control-label" })
+            <select name="AplicacionError" id="AplicacionError" onchange="cargarMotivoError(); NotaFinalCalidad();" class="browser-default radioo">
+                <option disabled selected> Seleccion Si aplica Tolerancia 0 / Alertas... </option>
+              @*  @foreach (var item in ViewBag.AplicaErrorFatal)
+                {
+                    <option value="@item.Text">@item.Text</option>
+                }*@
+            </select>
+            <br />
+        </div>
+        <div class="desc" id="motivoerrorfatal" style="display: none">
+            <div class="row" id="fila12">
+                <div class="col s12">
+                    <div class="col s3" id="errorfatal">
+                        @Html.Label("", "Motivo Error Fatal", htmlAttributes: new { @class = "control-label" })
+                        <select name="MotivoErrorFatal" id="MotivoErrorFatal" onchange="mostrarGravedad()" class="browser-default radioo">
+                            <option value="" selected> Seleccion Motivo Tolerancia 0 / Alertas... </option>
+                         @*   @foreach (var item in ViewBag.MotivoErrorFatal)
+                            {
+                                <option value="@item.Text">@item.Text</option>
+                            }*@
+                        </select>
+                    </div>
+                    <div class="col s3">
+                        @Html.Label("Gravedad")
+                        <input class="radioo" style="background-color: #e0e0e0" disabled type="text" id="gravedad" />
+                    </div>
+                    <div class="col s3">
+                        @Html.Label("Compromisos Cumplidos")
+                        <form action="#">
+                            <p>
+                                <input onclick="cargarExpAlerta()" name="group1" type="radio" id="ExpedienteAlerta1" value="Si" />
+                                <label for="ExpedienteAlerta1" class="col s2">Si</label>
+                                <input onclick="nocargarExpAlerta()" name="group1" type="radio" id="ExpedienteAlerta2" value="No" />
+                                <label for="ExpedienteAlerta2" class="col s2">No</label>
+                            </p>
+                        </form>
+                    </div>
+                    <div class="col s3" id="alertaExp" style="display: none">
+                        @Html.Label("Expediente")
+                        <input class="radioo" type="text" id="toleranciaExpediente" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="fila13">
+                <div class="col s12">
+                    <div class="col s6" id="comentariosExp">
+                        @Html.Label("Observaciones llamada")
+                        <textarea class="radioo" id="toleranciaObservaciones" placeholder="Observaciones llamada..."></textarea>
+                    </div>
+                    <div class="col s6">
+                        @Html.Label("Oportunidad de Mejora")
+                        <textarea class="radioo" id="toleranciaOportunidad" placeholder="Oportunidad de Mejora"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="determinate"></div>
+        </div>
+        <h6>Comentarios</h6>
+        @*@Html.EditorFor(d => d.Comentarios, "", new { @class = "form-control", @id = "Comentarios" })*@
+        <div class="row">
+            <div class="col s12">
+                <table>
+                    <tr>
+                        <td>
+                            <button data-toggle="modal" data-target="#modal1" class="btn modal-trigger" id="btnGuardar">Guardar Registro</button>
+
+                        </td>
+                        <td>
+                            <button data-toggle="modal" data-target="#modal2" class="btn modal-trigger" id="btnLimpiar">Limpiar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="modal1" class="modal">
+            <div class="modal-header">
+                <div class="center">
+                    <span id="tittle">Limpiar Formulario</span>
+                </div>
+                <br />
+            </div>
+            <div class="modal-body">
+                <p id="textomodal">¿Estas seguro que deseas guardar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <table>
+                    <tr>
+                        <td>
+                            <a onclick="Guardar()" class="modal-action modal-close waves-effect waves-orange btn-flat" id="botguardar">Guardar</a>
+                        </td>
+                        <td>
+                            <a class="modal-action modal-close waves-effect waves-orange btn-flat" data-dismiss="modal">Cerrar</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        @*Molda2*@
+
+        <div id="modal2" class="modal">
+            <div class="modal-header">
+                <div class="center">
+                    <span id="tittle">Limpiar Formulario</span>
+                </div>
+                <br />
+            </div>
+            <div class="modal-body">
+                <p id="textomodal">¿Estas seguro que deseas limpiar el formulario?</p>
+            </div>
+            <div class="modal-footer">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Index","PlanillasCalidad")" class="modal-action modal-close waves-effect waves-orange btn-flat">Limpiar</a>
+                        </td>
+                        <td>
+                            <a class="modal-action modal-close waves-effect waves-orange btn-flat" data-dismiss="modal">Cerrar</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        @*Modal3*@
+        <div id="modal3" class="modal">
+            <div class="modal-header">
+                <div class="center">
+                    <span id="tittle">Limpiar Formulario</span>
+                </div>
+                <br />
+            </div>
+            <div class="modal-body">
+                <p id="textomodal">Se han registrado los datos correctamente</p>
+            </div>
+            <div class="modal-footer">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Index","PlanillasCalidad")" class="modal-action modal-close waves-effect waves-orange btn-flat">Cerrar</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        @*Modal4*@
+        <div id="modal4" class="modal">
+            <div class="modal-header">
+                <div class="center">
+                    <span id="tittle">Se ha caducado tu sesión</span>
+                </div>
+                <br />
+            </div>
+            <div class="modal-body">
+                <p id="textomodal">Por tiempo de inactividad tu sesión a caducado, por favor vuelve a inciar sesión</p>
+            </div>
+            <div class="modal-footer">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="https://iceberg-pruebas.co.jazztel.com/" class="modal-action modal-close waves-effect waves-orange btn-flat">Voler al inicio</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<script src="~/js/Particles.js"></script>
